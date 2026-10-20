@@ -1,9 +1,5 @@
-SELECT courses.title, student_count
+SELECT courses.title, COUNT(enrollments.course_id) AS student_count
 FROM courses
-LEFT JOIN (
-	SELECT COUNT(*) AS student_count, enrollments.course_id AS course_id
-	FROM enrollments
-	GROUP BY enrollments.course_id
-) sub ON courses.id=course_id
+LEFT JOIN enrollments ON courses.id = enrollments.course_id
+GROUP BY courses.id, courses.title
 ORDER BY student_count DESC, courses.title ASC;
-
